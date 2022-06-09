@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:io';
 
-import 'package:flutter/services.dart';
 import 'package:content_share/content_share.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,13 +31,25 @@ class _MyAppState extends State<MyApp> {
   Future<void> initPlatformState() async {
     String platformVersion;
     try {
-      platformVersion =
-          await _contentSharePlugin.getPlatformVersion() ?? 'Unknown platform version';
+      platformVersion = await _contentSharePlugin.getPlatformVersion() ?? 'Unknown platform version';
 
-      Future.delayed(const Duration(seconds: 1),(){
-        _contentSharePlugin.share(title: "item to share",text: "share kro mast rho...  \n"
-            "link - https://www.youtube.com/watch?v=TZRpCGQsBCw");
-      });
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+     Future.delayed(const Duration(seconds:  3),(){
+       if (result != null) {
+         if (result.files.isEmpty) return;
+         print("shobhit : file path :  ${result.files.single.path!}");
+         _contentSharePlugin.shareFile(title: "dummy title", filePath: result.files.single.path!);
+       } else {
+         // User canceled the picker
+         print("shobhit : this is called ");
+       }
+     });
+
+      // Future.delayed(const Duration(seconds: 1),(){
+      //   _contentSharePlugin.share(title: "item to share",text: "share kro mast rho...  \n"
+      //       "link - https://www.youtube.com/watch?v=TZRpCGQsBCw");
+      // });
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }

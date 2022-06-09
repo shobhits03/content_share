@@ -35,6 +35,9 @@ class ContentSharePlugin: FlutterPlugin, MethodCallHandler,ActivityAware {
       "share" -> {
         share.share(call,result)
       }
+      "shareFile" -> {
+        share.shareFile(call,result)
+      }
       else -> {
         result.notImplemented()
       }

@@ -10,6 +10,11 @@ class MockContentSharePlatform
 
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
+
+  @override
+  Future<bool?> shareText({required String title, String? body}) {
+    throw UnimplementedError();
+  }
 }
 
 void main() {

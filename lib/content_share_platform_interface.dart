@@ -31,4 +31,8 @@ abstract class ContentSharePlatform extends PlatformInterface {
     throw UnimplementedError('shareText() has not been implemented.');
   }
 
+  Future<bool?> shareFile({required String title,String? body,required String filePath,}) {
+    throw UnimplementedError('shareFile() has not been implemented.');
+  }
+
 }

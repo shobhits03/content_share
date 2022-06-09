@@ -16,17 +16,34 @@ class MethodChannelContentShare extends ContentSharePlatform {
   }
 
   @override
-  Future<bool?> shareText({required String title,String? body,String? chooserTitle = "Select Application"}) async {
+  Future<bool?> shareText({required String title, String? body, String? chooserTitle = "Select Application"}) async {
     if (title.isEmpty) {
       throw FlutterError('Title cannot be null');
     }
-    final result = await methodChannel.invokeMethod('share', <String, dynamic>{
-      'title': title,
-      'text': body,
-      'chooserTitle' : chooserTitle
-    });
+    final result = await methodChannel.invokeMethod('share', <String, dynamic>{'title': title, 'text': body, 'chooserTitle': chooserTitle});
     return result;
   }
 
+  @override
+  Future<bool> shareFile(
+      {required String title, String? body, required String filePath, String fileType = '*/*', String? chooserTitle = "Select Application"}) async {
+    assert(title.isNotEmpty);
+    assert(filePath.isNotEmpty);
 
+    if (title.isEmpty) {
+      throw FlutterError('Title cannot be null');
+    } else if (filePath.isEmpty) {
+      throw FlutterError('FilePath cannot be null');
+    }
+
+    final success = await methodChannel.invokeMethod('shareFile', <String, dynamic>{
+      'title': title,
+      'text': body,
+      'filePath': filePath,
+      'fileType': fileType,
+      'chooserTitle': chooserTitle,
+    });
+
+    return success;
+  }
 }
