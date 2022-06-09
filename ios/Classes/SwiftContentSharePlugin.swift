@@ -34,8 +34,8 @@ public class SwiftContentSharePlugin: NSObject, FlutterPlugin {
         if response.text != nil {
             items.append(response.text!)
         }
-        if let fileURL = response.filePath, let url = URL(string: fileURL) {
-            items.append(url)
+        if let fileURL = response.filePath {
+            items.append(URL(fileURLWithPath: fileURL))
         }
         let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
         UIApplication.shared.topMostViewController()?.present(ac, animated: true, completion: nil)
